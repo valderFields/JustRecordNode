@@ -1,0 +1,20 @@
+# https://cnodejs.org/topic/57c68052b4a3bca66bbddbdd(讲解)
+env:
+  browser: true
+  commonjs: true
+  es6: true
+  node: true
+extends: 'eslint:recommended'
+rules:
+  indent:
+    - error
+    - tab
+  linebreak-style:
+    - error
+    - windows
+  quotes:
+    - error
+    - double
+  semi:
+    - error
+    - never
