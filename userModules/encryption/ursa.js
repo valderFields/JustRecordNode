@@ -1,9 +1,9 @@
 var crypto = require("crypto");
 var path = require("path");
 var fs = require("fs");
-
-var publicKey = './rsa_public_key.pem';
-var privateKey = './rsa_private_key.pem';
+var config = require('../../config/config');
+var publicKey = config.publicKey;
+var privateKey = config.privateKey;
 
 /*
 * 在window中使用openssl密钥工具生成的密钥,
@@ -29,13 +29,17 @@ var decryptStringWithRsaPrivateKey = function(toDecrypt, relativeOrAbsolutePatht
     var absolutePath = path.resolve(relativeOrAbsolutePathtoPrivateKey);
     var privateKey = fs.readFileSync(absolutePath, "utf8");
     var buffer = new Buffer(toDecrypt, "base64");
-    var decrypted = crypto.privateDecrypt(privateKey, buffer);
+    var decrypted = crypto.privateDecrypt({
+        key: privateKey,
+        padding: crypto.constants.RSA_PKCS1_PADDING
+    }, buffer);
     return decrypted.toString("utf8");
 };
 
 var getPublicKey = function (relativeOrAbsolutePathToPublicKey = publicKey) {
 	var absolutePath = path.resolve(relativeOrAbsolutePathToPublicKey);
     var publicKey = fs.readFileSync(absolutePath, "utf8");
+    return publicKey;
 }
 
 module.exports = {

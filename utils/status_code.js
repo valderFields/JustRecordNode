@@ -1,7 +1,7 @@
 
 
 module.exports = {
-    SUCCESS: '0',
+    SUCCESS_CODE: '200',
     SUCCESS_MSG: 'success',
 
     ERROR_PARAM: 'error_param',

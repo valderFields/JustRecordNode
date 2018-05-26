@@ -14,7 +14,9 @@ var config = {
         secret: 'justrecord',
         cookie_time: 86400000,
         maxAge: 2592000000
-    }
+    },
+    publicKey:__dirname +'/rsa_public_key.pem',
+    privateKey:__dirname +'/rsa_private_key.pem',
 };
 
 if (env == 'development') {

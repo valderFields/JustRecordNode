@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models').User;
 var crypto = require('crypto');
 var status_code = require('../utils/status_code');
+var ursa = require('../userModules/encryption/ursa');
 /*用户模块的接口*/
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -29,20 +30,16 @@ var SignUpController = function(req, res){
                     status_code.ERROR_USER_SIGNUP_ACCOUNT_MSG
                 );
             }else{
-                var md5 = crypto.createHash('md5');
-                md5.update(password);
-
-                var passwd_code = md5.digest('hex').substr(0, 16);
-
+                var passwd_code = ursa.decryptStringWithRsaPrivateKey(password);
                 User.create({
                     username: username,
                     password: passwd_code
                 }).then(function(user) {
                     res.make_response(
-                        status_code.SUCCESS,
+                        status_code.SUCCESS_CODE,
                         status_code.SUCCESS_MSG,
                         {
-                            'user_info': user.get('to_dict')
+                            modefined:user.get('to_dict')
                         }
                     );
                 });
@@ -56,5 +53,16 @@ var SignUpController = function(req, res){
         );
     }
 }
+var getPublicKeyController = function(req,res){
+    var publicKey = ursa.getPublicKey();
+    res.make_response(
+        status_code.SUCCESS_CODE,
+        status_code.SUCCESS_MSG,
+        {
+            'publicKey': publicKey
+        }
+    );
+}
 router.post('/signup', SignUpController);
+router.post('/getPublicKey', getPublicKeyController);
 module.exports = router;
