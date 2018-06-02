@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models').User;
 var crypto = require('crypto');
 var status_code = require('../utils/status_code');
+var config = require('../config/config');
 var ursa = require('../userModules/encryption/ursa');
 /*用户模块的接口*/
 router.get('/', function(req, res, next) {
@@ -30,7 +31,7 @@ var SignUpController = function(req, res){
                     status_code.ERROR_USER_SIGNUP_ACCOUNT_MSG
                 );
             }else{
-                var passwd_code = ursa.decryptStringWithRsaPrivateKey(password);
+                var passwd_code = ursa.decryptStringWithRsaPrivateKey(password,config.privateKey);
                 User.create({
                     username: username,
                     password: passwd_code
@@ -54,7 +55,7 @@ var SignUpController = function(req, res){
     }
 }
 var getPublicKeyController = function(req,res){
-    var publicKey = ursa.getPublicKey();
+    var publicKey = ursa.getPublicKey(config.privateKey);
     res.make_response(
         status_code.SUCCESS_CODE,
         status_code.SUCCESS_MSG,
