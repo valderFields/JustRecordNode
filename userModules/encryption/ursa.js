@@ -27,7 +27,16 @@ const MAX_DECRYPT_BLOCK = 1024/8;    /*RSA最大解密密文大小*/
 /*
 * RSA加密明文最大长度117字节，解密要求密文最大长度为128字节，所以在加密和解密的过程中需要分块进行。
 */
-var encryptStringWithRsaPublicKey = function(toEncrypt, relativeOrAbsolutePathToPublicKey = publicKey) {
+/**
+ * RSA公钥加密
+ * @Author   LHK
+ * @DateTime 2018-06-03
+ * @version  [version]
+ * @param    {[type]}   toEncrypt                         [加密的字符串]
+ * @param    {[type]}   relativeOrAbsolutePathToPublicKey [公钥的路径]
+ * @return   {[type]}                                     [description]
+ */
+var encryptStringWithRsaPublicKey = function(toEncrypt, relativeOrAbsolutePathToPublicKey) {
     var encryptedBuffersList = []; /*密文*/
     var bytesDecrypted = 0;  /*开始长度*/
     var absolutePath = path.resolve(relativeOrAbsolutePathToPublicKey);
@@ -47,7 +56,16 @@ var encryptStringWithRsaPublicKey = function(toEncrypt, relativeOrAbsolutePathTo
     return Buffer.concat(encryptedBuffersList).toString('base64'); 
 };
 
-var decryptStringWithRsaPrivateKey = function(toDecrypt, relativeOrAbsolutePathtoPrivateKey = privateKey) {
+/**
+ * RSA私钥解密
+ * @Author   LHK
+ * @DateTime 2018-06-03
+ * @version  [version]
+ * @param    {[type]}   toDecrypt                          [需要解密的字符串]
+ * @param    {[type]}   relativeOrAbsolutePathtoPrivateKey [私钥的路径]
+ * @return   {[type]}                                      [description]
+ */
+var decryptStringWithRsaPrivateKey = function(toDecrypt, relativeOrAbsolutePathtoPrivateKey) {
     var decryptedBuffers = [];  /*明文*/
     var absolutePath = path.resolve(relativeOrAbsolutePathtoPrivateKey);
     var privateKey = fs.readFileSync(absolutePath, "utf8");
@@ -67,15 +85,47 @@ var decryptStringWithRsaPrivateKey = function(toDecrypt, relativeOrAbsolutePatht
     }
     return Buffer.concat(decryptedBuffers).toString('utf8');
 };
-var getPublicKey = function (relativeOrAbsolutePathToPublicKey = publicKey) {
+/**
+ * 根据路径解析公钥并返回
+ * @Author   LHK
+ * @DateTime 2018-06-03
+ * @version  [version]
+ * @param    {[type]}   relativeOrAbsolutePathToPublicKey [公钥的路径]
+ * @return   {[type]}                                     [description]
+ */
+var getPublicKey = function (relativeOrAbsolutePathToPublicKey) {
 	var absolutePath = path.resolve(relativeOrAbsolutePathToPublicKey);
     var publicKey = fs.readFileSync(absolutePath, "utf8");
     return publicKey;
 }
+/**
+ * md5不可逆加密
+ * @Author   LHK
+ * @DateTime 2018-06-03
+ * @version  [version]
+ * @param    {[type]}   text [description]
+ * @return   {[type]}        [description]
+ */
+var md5IrreEncrypt = function(text){
+    return crypto.createHash('md5').update(text).digest('hex')
+} 
+/**sha1不可逆加密
+ * @Author   LHK
+ * @DateTime 2018-06-03
+ * @version  [version]
+ * @param    {[type]}   text [description]
+ * @return   {[type]}        [description]
+ */
+var sha1IrreEncrypt = function(text){
+    return crypto.createHash('sha1').update(text).digest('hex');
+}
+
 
 module.exports = {
     encryptStringWithRsaPublicKey: encryptStringWithRsaPublicKey,
     decryptStringWithRsaPrivateKey: decryptStringWithRsaPrivateKey,
-    getPublicKey:getPublicKey
+    getPublicKey:getPublicKey,
+    sha1IrreEncrypt:sha1IrreEncrypt,
+    md5IrreEncrypt:md5IrreEncrypt
 }
 

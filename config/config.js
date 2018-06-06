@@ -8,13 +8,6 @@ var config = {
     redis: {
         port: 6379
     },
-    // session
-    session: {
-        name: 'justrecord',
-        secret: 'justrecord',
-        cookie_time: 86400000,
-        maxAge: 2592000000
-    },
     publicKey:__dirname +'/rsa_public_key.pem',
     privateKey:__dirname +'/rsa_private_key.pem',
 };
@@ -22,10 +15,10 @@ var config = {
 if (env == 'development') {
     // 端口
     config.web_port = 9000;
-
     // redis
+    
     config.redis.host = '127.0.0.1';
-    config.redis.passwd = '';
+    config.redis.passwd = 'root';
 
     // DB
     config.db = {
@@ -40,7 +33,6 @@ if (env == 'development') {
 
     config.redis.host = '127.0.0.1';
     config.redis.passwd = '';
-
     config.db = {
         name: 'just_record',
         host: 'localhost',

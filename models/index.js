@@ -1,7 +1,7 @@
 'use strict';
 
-var sequelize=require('./_db').sequelize();
-var User = sequelize.import('./user.js');
+const sequelize=require('./_db').sequelize();
+const User = sequelize.import('./user.js');
 
 // 同步模型到数据库中
 sequelize.sync();

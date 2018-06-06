@@ -1,18 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var session = require('express-session');
-var store = require('express-mysql-session');//session存储到mysql
-var config = require('./config/config');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var httpBaseHandle = require('./routes/base');
+const createError = require('http-errors');
+const express = require('express');
+const config = require('./config/config');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const httpBaseHandle = require('./routes/base');
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,17 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //static中间件指定公共资源的路径
 app.use(express.static(path.join(__dirname, 'public')));
-// session 中间件
-app.use(session({
-  name: config.session.key, // 设置 cookie 中保存 session id 的字段名称
-  secret: config.session.secret, // 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
-  resave: true, // 强制更新 session
-  saveUninitialized: false, // 设置为 false，强制创建一个 session，即使用户未登录
-  cookie: {
-    maxAge: config.session.maxAge// 过期时间，过期后 cookie 中的 session id 自动删除
-  }
-  //store:new store(config.mysql), 
-}))
 app.use(httpBaseHandle);
 app.all('*', function(req, res, next) {
   //设置请求体,支持 post、get、jsonp

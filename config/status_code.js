@@ -1,0 +1,17 @@
+
+module.exports = {
+    SUCCESS_CODE: '200',
+    SUCCESS_MSG: 'success',
+
+    ERROR_PARAM_CODE: '400',
+    ERROR_PARAM_MSG: '参数错误',
+
+    ERROR_USER_SIGNUP_ACCOUNT_CODE: '401',
+    ERROR_USER_SIGNUP_ACCOUNT_MSG: '用户已存在',
+
+    ERROR_USER_SIGNIN_ACCOUNT_CODE: '400',
+    ERROR_USER_SIGNIN_ACCOUNT_MSG: '用户名或密码错误',
+
+    ERROR_TOKEN_CODE: '401',
+    ERROR_TOKEN_CMSG: '不合法的token'
+};
