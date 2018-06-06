@@ -192,6 +192,7 @@ module.exports = Middleware;
 ```
 ### 本项目token分为access_token和refresh_token
 + 使用jsonwebtoken生成token
-+ 使用express_jwt验证token的签名
++ 使用jsonwebtoken验证token的签名
 + 使用redis做token的有效期
++ refresh_token 暂时没有处理而只是单纯的增加access_token的有效期
 + 并发要使用黑名单控制token,暂时不处理并发
