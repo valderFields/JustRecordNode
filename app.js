@@ -1,12 +1,11 @@
 const createError = require('http-errors');
 const express = require('express');
+const ejs = require('ejs');
 const config = require('./config/config');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const httpBaseHandle = require('./routes/base');
-
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
@@ -14,6 +13,7 @@ const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('html', ejs.__express);
 app.set('view engine', 'html');
 //日志中间件
 app.use(logger('dev'));
