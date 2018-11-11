@@ -14,7 +14,7 @@ const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'html');
 //日志中间件
 app.use(logger('dev'));
 // //Content-Type=application/json请求内容解析中间件
